@@ -1,3 +1,32 @@
+// No início do arquivo
+class Pedidos {
+    constructor() {
+        this.authSystem = window.authSystem || new AuthSystem();
+        this.currentUser = this.authSystem.getCurrentUser();
+        
+        // Verificação de autenticação
+        if (!this.currentUser) {
+            window.location.href = 'index.html';
+            return;
+        }
+        
+        this.services = {
+            'live-points': { price: 0.80, min: 100, max: 10000 },
+            // ... outros serviços
+        };
+        this.init();
+    }
+    // ... resto do código
+}
+// Verificação de autenticação
+document.addEventListener('DOMContentLoaded', function() {
+    const currentUser = JSON.parse(localStorage.getItem('boost_lives_current_user'));
+    if (!currentUser) {
+        alert('Você precisa estar logado para acessar esta página!');
+        window.location.href = 'index.html';
+        return;
+    }
+});
 // Verificação de autenticação
 document.addEventListener('DOMContentLoaded', function() {
     const currentUser = JSON.parse(localStorage.getItem('boost_lives_current_user'));

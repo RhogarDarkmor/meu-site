@@ -333,3 +333,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize dashboard
     window.dashboard = new Dashboard();
 });
+<a href="fazer-pedido.html" class="btn btn-primary">
+    🎮 Fazer Pedido Twitch
+</a>

@@ -1,3 +1,4 @@
+
 // Sistema de autenticação
 class AuthSystem {
     constructor() {
