@@ -1,16 +1,24 @@
-// Verificação de autenticação imediata
+// Verificação de autenticação
 document.addEventListener('DOMContentLoaded', function() {
     const currentUser = JSON.parse(localStorage.getItem('boost_lives_current_user'));
     if (!currentUser) {
+        alert('Você precisa estar logado para acessar esta página!');
         window.location.href = 'index.html';
         return;
     }
 });
-// Pedido functionality
-class Pedido {
+// Pedidos functionality
+class Pedidos {
     constructor() {
         this.authSystem = window.authSystem || new AuthSystem();
         this.currentUser = this.authSystem.getCurrentUser();
+        this.services = {
+            'live-points': { price: 0.80, min: 100, max: 10000 },
+            'followers': { price: 1.50, min: 50, max: 5000 },
+            'viewers': { price: 0.20, min: 1000, max: 50000 },
+            'chat-points': { price: 0.80, min: 100, max: 10000 },
+            'subscribers': { price: 2.00, min: 10, max: 1000 }
+        };
         this.init();
     }
 
@@ -21,8 +29,9 @@ class Pedido {
         }
 
         this.setupEventListeners();
-        this.loadOrderData();
-        this.setupRealTimeUpdates();
+        this.loadUserData();
+        this.calculatePrice();
+        this.setupCategoryButtons();
     }
 
     setupEventListeners() {
@@ -35,8 +44,17 @@ class Pedido {
             });
         }
 
-        // Quantity input validation
-        const quantityInput = document.getElementById('order-quantity');
+        // Form submission
+        const orderForm = document.getElementById('order-form');
+        if (orderForm) {
+            orderForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                this.processOrder();
+            });
+        }
+
+        // Quantity input
+        const quantityInput = document.getElementById('quantity');
         if (quantityInput) {
             quantityInput.addEventListener('input', () => {
                 this.validateQuantity();
@@ -44,68 +62,96 @@ class Pedido {
             });
         }
 
+        // Service type change
+        const serviceType = document.getElementById('service-type');
+        if (serviceType) {
+            serviceType.addEventListener('change', () => {
+                this.updateServiceDetails();
+                this.calculatePrice();
+            });
+        }
+
+        // Checkbox changes
+        const highQuality = document.getElementById('high-quality');
+        if (highQuality) {
+            highQuality.addEventListener('change', () => {
+                this.calculatePrice();
+            });
+        }
+
         // Link validation
-        const linkInput = document.getElementById('order-link');
-        if (linkInput) {
-            linkInput.addEventListener('input', () => {
+        const channelLink = document.getElementById('channel-link');
+        if (channelLink) {
+            channelLink.addEventListener('input', () => {
                 this.validateLink();
             });
         }
-
-        // Search functionality
-        const searchBtn = document.querySelector('.search-btn');
-        if (searchBtn) {
-            searchBtn.addEventListener('click', () => {
-                this.searchCategory();
-            });
-        }
-
-        const searchInput = document.getElementById('category-search');
-        if (searchInput) {
-            searchInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    this.searchCategory();
-                }
-            });
-        }
     }
 
-    loadOrderData() {
-        // Load user data
-        document.getElementById('order-client').textContent = this.currentUser.username;
+    loadUserData() {
+        // Update user info
+        const userAvatar = document.getElementById('user-avatar');
+        const userName = document.getElementById('user-name');
+        const sidebarBalance = document.getElementById('sidebar-balance');
+        const summaryBalance = document.getElementById('summary-balance');
+
+        if (userAvatar) userAvatar.textContent = this.currentUser.username.charAt(0).toUpperCase();
+        if (userName) userName.textContent = this.currentUser.username;
         
-        // Generate random order ID
-        const orderId = '#' + Math.floor(100000 + Math.random() * 900000);
-        document.getElementById('order-id').textContent = orderId;
-        document.getElementById('modal-order-id').textContent = orderId;
-        
-        // Set current date and time
-        const now = new Date();
-        const formattedDate = now.toLocaleDateString('pt-BR') + ' às ' + now.toLocaleTimeString('pt-BR', {
-            hour: '2-digit',
-            minute: '2-digit'
+        const balanceFormatted = `R$ ${this.currentUser.balance.toFixed(2)}`;
+        if (sidebarBalance) sidebarBalance.textContent = balanceFormatted;
+        if (summaryBalance) summaryBalance.textContent = balanceFormatted;
+    }
+
+    setupCategoryButtons() {
+        const categoryButtons = document.querySelectorAll('.category-btn');
+        categoryButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                categoryButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                const category = button.dataset.category;
+                this.filterServicesByCategory(category);
+            });
         });
-        document.getElementById('order-date').textContent = formattedDate;
+    }
+
+    filterServicesByCategory(category) {
+        // Simulate category filtering
+        this.showNotification(`Mostrando serviços de ${category}`, 'info');
         
-        // Set initial quantity and price
-        this.calculatePrice();
+        // Update service list (in a real app, this would filter from an API)
+        const serviceType = document.getElementById('service-type');
+        if (serviceType) {
+            // Simulate loading new services
+            setTimeout(() => {
+                this.showNotification(`Serviços de ${category} carregados!`, 'success');
+            }, 500);
+        }
     }
 
     validateQuantity() {
-        const quantityInput = document.getElementById('order-quantity');
+        const quantityInput = document.getElementById('quantity');
+        const serviceType = document.getElementById('service-type').value;
         const quantity = parseInt(quantityInput.value) || 0;
         
-        if (quantity < 30) {
-            quantityInput.setCustomValidity('Quantidade mínima: 30 minutos');
-        } else if (quantity > 60) {
-            quantityInput.setCustomValidity('Quantidade máxima: 60 minutos');
+        if (!serviceType) {
+            quantityInput.setCustomValidity('Selecione um serviço primeiro');
+            return;
+        }
+
+        const service = this.services[serviceType];
+        if (quantity < service.min) {
+            quantityInput.setCustomValidity(`Quantidade mínima: ${service.min}`);
+        } else if (quantity > service.max) {
+            quantityInput.setCustomValidity(`Quantidade máxima: ${service.max}`);
         } else {
             quantityInput.setCustomValidity('');
         }
     }
 
     validateLink() {
-        const linkInput = document.getElementById('order-link');
+        const linkInput = document.getElementById('channel-link');
         const link = linkInput.value;
         
         if (link && !link.includes('twitch.tv')) {
@@ -115,103 +161,139 @@ class Pedido {
         }
     }
 
-    calculatePrice() {
-        const quantityInput = document.getElementById('order-quantity');
-        const quantity = parseInt(quantityInput.value) || 30;
-        const pricePerMinute = 3.33; // R$ 100,00 / 30 minutos
+    updateServiceDetails() {
+        const serviceType = document.getElementById('service-type');
+        const quantityInput = document.getElementById('quantity');
         
-        const totalPrice = quantity * pricePerMinute;
-        const formattedPrice = 'R$ ' + totalPrice.toFixed(2).replace('.', ',');
-        
-        document.getElementById('order-value').textContent = formattedPrice;
-        document.getElementById('order-value-input').value = formattedPrice;
-        document.getElementById('modal-value').textContent = formattedPrice;
-        document.getElementById('modal-quantity').textContent = quantity + ' minutos';
-    }
+        if (!serviceType.value) return;
 
-    searchCategory() {
-        const searchInput = document.getElementById('category-search');
-        const searchTerm = searchInput.value.toLowerCase();
+        const service = this.services[serviceType.value];
+        quantityInput.min = service.min;
+        quantityInput.max = service.max;
+        quantityInput.value = service.min;
         
-        if (searchTerm) {
-            this.showNotification(`Buscando por: ${searchTerm}`, 'info');
-            // Simulate search delay
-            setTimeout(() => {
-                this.showNotification('Categoria encontrada: TWITCH Live BR', 'success');
-            }, 1000);
+        // Update quantity range display
+        const quantityRange = quantityInput.parentElement.querySelector('.quantity-range');
+        if (quantityRange) {
+            quantityRange.innerHTML = `<span>Mín: ${service.min}</span><span>Máx: ${service.max}</span>`;
         }
     }
 
-    processOrder() {
-        const linkInput = document.getElementById('order-link');
-        const quantityInput = document.getElementById('order-quantity');
+    calculatePrice() {
+        const serviceType = document.getElementById('service-type').value;
+        const quantityInput = document.getElementById('quantity');
+        const highQuality = document.getElementById('high-quality').checked;
         
+        if (!serviceType) {
+            this.showNotification('Selecione um tipo de serviço', 'error');
+            return;
+        }
+
+        const quantity = parseInt(quantityInput.value) || this.services[serviceType].min;
+        let unitPrice = this.services[serviceType].price;
+        
+        // Apply quality premium
+        if (highQuality) {
+            unitPrice *= 1.2; // 20% increase
+        }
+
+        const totalPrice = quantity * unitPrice;
+        const formattedUnitPrice = `R$ ${unitPrice.toFixed(2).replace('.', ',')}`;
+        const formattedTotal = `R$ ${totalPrice.toFixed(2).replace('.', ',')}`;
+
+        // Update summary
+        document.getElementById('summary-quantity').textContent = quantity.toLocaleString('pt-BR');
+        document.getElementById('summary-price').textContent = formattedUnitPrice;
+        document.getElementById('summary-total').textContent = formattedTotal;
+
+        return totalPrice;
+    }
+
+    processOrder() {
+        const linkInput = document.getElementById('channel-link');
+        const serviceType = document.getElementById('service-type');
+        const quantityInput = document.getElementById('quantity');
+        
+        // Validate form
         if (!linkInput.value) {
             this.showNotification('Por favor, insira o link da Twitch', 'error');
             linkInput.focus();
             return;
         }
-        
+
         if (!linkInput.value.includes('twitch.tv')) {
             this.showNotification('Por favor, insira um link válido da Twitch', 'error');
             linkInput.focus();
             return;
         }
+
+        if (!serviceType.value) {
+            this.showNotification('Por favor, selecione um tipo de serviço', 'error');
+            serviceType.focus();
+            return;
+        }
+
+        const quantity = parseInt(quantityInput.value);
+        const service = this.services[serviceType.value];
         
-        const quantity = parseInt(quantityInput.value) || 30;
-        if (quantity < 30 || quantity > 60) {
-            this.showNotification('Quantidade deve ser entre 30 e 60 minutos', 'error');
+        if (quantity < service.min || quantity > service.max) {
+            this.showNotification(`Quantidade deve ser entre ${service.min} e ${service.max}`, 'error');
             quantityInput.focus();
             return;
         }
+
+        const totalPrice = this.calculatePrice();
         
+        // Check balance
+        if (this.currentUser.balance < totalPrice) {
+            this.showNotification('Saldo insuficiente! Por favor, adicione créditos.', 'error');
+            return;
+        }
+
         // Simulate order processing
         this.showNotification('Processando seu pedido...', 'info');
-        
+
+        // Generate random order ID
+        const orderId = '#' + Math.floor(100000 + Math.random() * 900000);
+
         setTimeout(() => {
+            // Update confirmation modal
+            document.getElementById('confirmation-id').textContent = orderId;
+            document.getElementById('confirmation-quantity').textContent = 
+                quantity.toLocaleString('pt-BR') + ' unidades';
+            document.getElementById('confirmation-total').textContent = 
+                'R$ ' + totalPrice.toFixed(2).replace('.', ',');
+
+            // Show confirmation modal
             this.showModal('confirmation-modal');
-            this.saveOrderToHistory();
+
+            // Save order to history
+            this.saveOrder(orderId, serviceType.value, quantity, totalPrice);
+
+            // Update user balance
+            this.authSystem.updateUserBalance(-totalPrice);
+            this.loadUserData();
+
         }, 2000);
     }
 
-    saveOrderToHistory() {
-        // Get existing orders or initialize empty array
+    saveOrder(orderId, serviceType, quantity, totalPrice) {
         const orders = JSON.parse(localStorage.getItem('boost_lives_orders')) || [];
         
-        const newOrder = {
-            id: document.getElementById('order-id').textContent.replace('#', ''),
+        const order = {
+            id: orderId,
             userId: this.currentUser.id,
-            service: 'Live BR (Pontos BR 100% Live)',
-            link: document.getElementById('order-link').value,
-            quantity: parseInt(document.getElementById('order-quantity').value),
-            cost: parseFloat(document.getElementById('order-value-input').value.replace('R$ ', '').replace(',', '.')),
+            service: serviceType,
+            link: document.getElementById('channel-link').value,
+            quantity: quantity,
+            cost: totalPrice,
             status: 'processing',
             createdAt: new Date().toISOString(),
-            category: 'TWITCH Live BR (Pontos BR 100% Qualidade)'
+            category: 'twitch'
         };
-        
-        orders.push(newOrder);
+
+        orders.push(order);
         localStorage.setItem('boost_lives_orders', JSON.stringify(orders));
-        
-        // Update user balance
-        const cost = newOrder.cost;
-        if (this.currentUser.balance >= cost) {
-            this.authSystem.updateUserBalance(-cost);
-        } else {
-            this.showNotification('Saldo insuficiente! Por favor, adicione créditos.', 'error');
-        }
-    }
-
-    setupRealTimeUpdates() {
-        // Simulate real-time updates for demonstration
-        setInterval(() => {
-            this.updateOrderStatus();
-        }, 30000); // Update every 30 seconds
-    }
-
-    updateOrderStatus() {
-        // This would connect to a real API in production
-        console.log('Verificando atualizações do pedido...');
     }
 
     showModal(modalId) {
@@ -231,38 +313,20 @@ class Pedido {
     }
 }
 
-// Global functions for HTML onclick attributes
-function processOrder() {
-    if (window.pedido) {
-        window.pedido.processOrder();
+// Global functions
+function calculatePrice() {
+    if (window.pedidos) {
+        window.pedidos.calculatePrice();
     }
 }
 
 function closeModal(modalId) {
-    if (window.pedido) {
-        window.pedido.closeModal(modalId);
+    if (window.pedidos) {
+        window.pedidos.closeModal(modalId);
     }
 }
 
-function shareOrder() {
-    const orderId = document.getElementById('order-id').textContent;
-    const orderDetails = `Confira meu pedido ${orderId} no Boost Lives!`;
-    
-    if (navigator.share) {
-        navigator.share({
-            title: 'Meu Pedido - Boost Lives',
-            text: orderDetails,
-            url: window.location.href
-        }).catch(() => {
-            alert('Pedido copiado para a área de transferência!');
-        });
-    } else {
-        navigator.clipboard.writeText(orderDetails);
-        alert('Pedido copiado para a área de transferência!');
-    }
-}
-
-// Initialize pedido when page loads
+// Initialize pedidos when page loads
 document.addEventListener('DOMContentLoaded', () => {
-    window.pedido = new Pedido();
+    window.pedidos = new Pedidos();
 });

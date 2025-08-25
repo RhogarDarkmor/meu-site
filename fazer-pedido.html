@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fazer Pedido - Boost Lives</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/pedidos.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="dark-theme">
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="logo-icon">🚀</span>
+                    <span class="logo-text">Boost Lives</span>
+                </div>
+                
+                <nav class="nav">
+                    <a href="perfil.html" class="nav-link">Meu Perfil</a>
+                    <a href="dashboard.html" class="nav-link">Serviços</a>
+                    <a href="api.html" class="nav-link">API</a>
+                    <div class="user-menu" id="user-menu">
+                        <div class="user-info">
+                            <div class="user-avatar" id="user-avatar"></div>
+                            <span id="user-name"></span>
+                        </div>
+                        <a href="#" class="nav-link" id="logout-btn">Sair</a>
+                    </div>
+                </nav>
+
+                <div class="mobile-menu-toggle" id="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <section class="make-order">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <a href="perfil.html">Perfil</a>
+                <span>▶</span>
+                <a href="dashboard.html">Serviços</a>
+                <span>▶</span>
+                <span>Fazer Pedido</span>
+            </div>
+
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1>🎮 Fazer Pedido - Twitch</h1>
+                <p>Preencha os dados abaixo para realizar seu pedido de serviços para Twitch</p>
+            </div>
+
+            <div class="order-layout">
+                <!-- Sidebar com Categorias -->
+                <aside class="order-sidebar">
+                    <div class="sidebar-section">
+                        <h3>📋 Categorias</h3>
+                        <div class="category-list">
+                            <button class="category-btn active" data-category="twitch">
+                                🎮 Twitch
+                            </button>
+                            <button class="category-btn" data-category="instagram">
+                                📷 Instagram
+                            </button>
+                            <button class="category-btn" data-category="youtube">
+                                📺 YouTube
+                            </button>
+                            <button class="category-btn" data-category="tiktok">
+                                📱 TikTok
+                            </button>
+                            <button class="category-btn" data-category="twitter">
+                                💙 Twitter
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-section">
+                        <h3>⚡ Serviços em Destaque</h3>
+                        <div class="featured-services">
+                            <div class="featured-service">
+                                <span class="service-icon">👥</span>
+                                <div class="service-info">
+                                    <h4>Seguidores Twitch</h4>
+                                    <p>R$ 1,50/unidade</p>
+                                </div>
+                            </div>
+                            <div class="featured-service">
+                                <span class="service-icon">💬</span>
+                                <div class="service-info">
+                                    <h4>Chat Points</h4>
+                                    <p>R$ 0,80/unidade</p>
+                                </div>
+                            </div>
+                            <div class="featured-service">
+                                <span class="service-icon">👀</span>
+                                <div class="service-info">
+                                    <h4>Visualizações</h4>
+                                    <p>R$ 0,20/unidade</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-section">
+                        <h3>💎 Seu Saldo</h3>
+                        <div class="balance-card">
+                            <div class="balance-amount" id="sidebar-balance">R$ 0,00</div>
+                            <button class="btn-add-funds" onclick="location.href='perfil.html#add-funds'">
+                                + Adicionar Saldo
+                            </button>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Área Principal do Pedido -->
+                <main class="order-main">
+                    <!-- Cabeçalho do Serviço -->
+                    <div class="service-header">
+                        <div class="service-info">
+                            <h2>🎮 TWITCH Live BR</h2>
+                            <p class="service-description">Pontos BR 100% Qualidade - Serviço premium para streamers</p>
+                        </div>
+                        <div class="service-rating">
+                            <span class="rating-stars">★★★★★</span>
+                            <span class="rating-text">4.9 (2.5k avaliações)</span>
+                        </div>
+                    </div>
+
+                    <!-- Informações do Serviço -->
+                    <div class="service-details">
+                        <div class="detail-card">
+                            <span class="detail-icon">⚡</span>
+                            <div class="detail-content">
+                                <h4>Entrega Rápida</h4>
+                                <p>Início em 5-15 minutos</p>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <span class="detail-icon">✅</span>
+                            <div class="detail-content">
+                                <h4>Alta Qualidade</h4>
+                                <p>Perfis reais e engajamento genuíno</p>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <span class="detail-icon">🛡️</span>
+                            <div class="detail-content">
+                                <h4>Garantia</h4>
+                                <p>30 dias de garantia</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Formulário do Pedido -->
+                    <div class="order-form-section">
+                        <h3>📝 Dados do Pedido</h3>
+                        
+                        <form id="order-form" class="order-form">
+                            <!-- Campo de Link -->
+                            <div class="form-group">
+                                <label for="channel-link">
+                                    🔗 Link do Canal Twitch
+                                </label>
+                                <input 
+                                    type="url" 
+                                    id="channel-link" 
+                                    placeholder="https://twitch.tv/seucanal" 
+                                    required
+                                >
+                                <div class="form-help">
+                                    Exemplo: https://twitch.tv/seunome
+                                </div>
+                            </div>
+
+                            <!-- Seleção de Serviço -->
+                            <div class="form-group">
+                                <label for="service-type">
+                                    🎯 Tipo de Serviço
+                                </label>
+                                <select id="service-type" required>
+                                    <option value="">Selecione o serviço...</option>
+                                    <option value="live-points" selected>Live BR (Pontos BR 100% Live)</option>
+                                    <option value="followers">Seguidores Twitch</option>
+                                    <option value="viewers">Visualizações</option>
+                                    <option value="chat-points">Pontos do Chat</option>
+                                    <option value="subscribers">Subscribers</option>
+                                </select>
+                            </div>
+
+                            <!-- Quantidade -->
+                            <div class="form-group">
+                                <label for="quantity">
+                                    📊 Quantidade
+                                </label>
+                                <div class="quantity-container">
+                                    <input 
+                                        type="number" 
+                                        id="quantity" 
+                                        min="100" 
+                                        max="10000" 
+                                        value="1000" 
+                                        required
+                                    >
+                                    <div class="quantity-range">
+                                        <span>Mín: 100</span>
+                                        <span>Máx: 10.000</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Opções Adicionais -->
+                            <div class="form-group">
+                                <label>⚙️ Opções Adicionais</label>
+                                <div class="checkbox-group">
+                                    <label class="checkbox">
+                                        <input type="checkbox" id="drip-feed">
+                                        <span class="checkmark"></span>
+                                        Entregar gradualmente (Drip-feed)
+                                    </label>
+                                    <label class="checkbox">
+                                        <input type="checkbox" id="high-quality">
+                                        <span class="checkmark"></span>
+                                        Qualidade Premium (+20%)
+                                    </label>
+                                    <label class="checkbox">
+                                        <input type="checkbox" id="guarantee">
+                                        <span class="checkmark"></span>
+                                        Garantia estendida 60 dias
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Resumo do Pedido -->
+                            <div class="order-summary">
+                                <h4>💰 Resumo do Pedido</h4>
+                                <div class="summary-grid">
+                                    <div class="summary-item">
+                                        <span>Quantidade:</span>
+                                        <span id="summary-quantity">1.000</span>
+                                    </div>
+                                    <div class="summary-item">
+                                        <span>Preço unitário:</span>
+                                        <span id="summary-price">R$ 0,80</span>
+                                    </div>
+                                    <div class="summary-item">
+                                        <span>Total:</span>
+                                        <span class="total-amount" id="summary-total">R$ 800,00</span>
+                                    </div>
+                                    <div class="summary-item">
+                                        <span>Saldo disponível:</span>
+                                        <span id="summary-balance">R$ 0,00</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Ações -->
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary" onclick="calculatePrice()">
+                                    🔄 Calcular
+                                </button>
+                                <button type="submit" class="btn btn-primary">
+                                    🚀 Fazer Pedido
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Informações de Qualidade -->
+                    <div class="quality-info">
+                        <h3>📊 Boost Lives Informa</h3>
+                        
+                        <div class="quality-grid">
+                            <div class="quality-item quality-high">
+                                <span class="quality-dot"></span>
+                                <span>Alta Qualidade</span>
+                            </div>
+                            <div class="quality-item quality-medium">
+                                <span class="quality-dot"></span>
+                                <span>Qualidade de Rede</span>
+                            </div>
+                            <div class="quality-item quality-low">
+                                <span class="quality-dot"></span>
+                                <span>Respeito Automático</span>
+                            </div>
+                        </div>
+
+                        <div class="status-info">
+                            <h4>🎯 Status dos Serviços</h4>
+                            <div class="status-list">
+                                <div class="status-item status-ok">
+                                    <span class="status-indicator"></span>
+                                    <span>Twitch: ✅ Operacional</span>
+                                </div>
+                                <div class="status-item status-warning">
+                                    <span class="status-indicator"></span>
+                                    <span>Instagram: ⚡ Velocidade Reduzida</span>
+                                </div>
+                                <div class="status-item status-ok">
+                                    <span class="status-indicator"></span>
+                                    <span>YouTube: ✅ Operacional</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal de Confirmação -->
+    <div class="modal" id="confirmation-modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('confirmation-modal')">&times;</span>
+            
+            <div class="modal-header success">
+                <div class="modal-icon">✅</div>
+                <h2>Pedido Realizado com Sucesso!</h2>
+            </div>
+
+            <div class="modal-body">
+                <div class="order-details">
+                    <div class="detail-row">
+                        <span>ID do Pedido:</span>
+                        <strong id="confirmation-id">#123456</strong>
+                    </div>
+                    <div class="detail-row">
+                        <span>Serviço:</span>
+                        <span>Live BR (Pontos BR 100% Live)</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Quantidade:</span>
+                        <span id="confirmation-quantity">1.000 unidades</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Total:</span>
+                        <span class="highlight" id="confirmation-total">R$ 800,00</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Status:</span>
+                        <span class="status processing">Processando</span>
+                    </div>
+                </div>
+
+                <div class="modal-message">
+                    <p>Seu pedido foi recebido e está sendo processado. Você receberá atualizações por email.</p>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeModal('confirmation-modal')">
+                    📋 Ver Detalhes
+                </button>
+                <button class="btn btn-primary" onclick="location.href='perfil.html'">
+                    🏠 Ir para o Perfil
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/pedidos.js"></script>
+</body>
+</html>
