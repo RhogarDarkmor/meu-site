@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Conta - Boost Lives</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="dark-theme">
+    <a href="index.html" class="back-home">← Voltar ao Início</a>
+    
+    <div class="auth-container">
+        <div class="auth-box">
+            <div class="auth-header">
+                <h1>Criar Conta</h1>
+                <p>Junte-se a milhares de clientes satisfeitos</p>
+            </div>
+            
+            <form id="register-form" class="auth-form">
+                <div class="form-group">
+                    <label for="username">Nome de Usuário</label>
+                    <input type="text" id="username" placeholder="Seu nome de usuário" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" placeholder="seu@email.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" placeholder="Sua senha" required>
+                    <div class="password-strength">
+                        <div class="strength-bar"></div>
+                    </div>
+                    <div class="password-requirements">
+                        <div class="requirement unmet" data-type="length">✓ Pelo menos 8 caracteres</div>
+                        <div class="requirement unmet" data-type="uppercase">✓ Letra maiúscula</div>
+                        <div class="requirement unmet" data-type="lowercase">✓ Letra minúscula</div>
+                        <div class="requirement unmet" data-type="number">✓ Número</div>
+                        <div class="requirement unmet" data-type="special">✓ Caractere especial</div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirmPassword">Confirmar Senha</label>
+                    <input type="password" id="confirmPassword" placeholder="Confirme sua senha" required>
+                </div>
+                
+                <button type="submit" class="auth-btn">Criar Conta</button>
+            </form>
+            
+            <div class="auth-footer">
+                <p>Já tem uma conta? <a href="index.html">Fazer login</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+</body>
+</html>

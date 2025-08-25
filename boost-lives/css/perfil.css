@@ -1,0 +1,618 @@
+/* Profile Styles */
+.profile {
+    padding: 100px 0 40px;
+    min-height: 100vh;
+    background: var(--bg-primary);
+}
+
+.profile-header {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 2rem;
+    align-items: center;
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: var(--bg-tertiary);
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.profile-avatar {
+    position: relative;
+}
+
+.avatar-large {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: var(--accent-gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: white;
+}
+
+.avatar-edit {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: var(--bg-secondary);
+    border: 2px solid var(--bg-tertiary);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.avatar-edit:hover {
+    background: var(--accent-primary);
+    transform: scale(1.1);
+}
+
+.profile-info h1 {
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, #ffffff 0%, #b8b8d9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.profile-email {
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.profile-join-date {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.profile-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.stat-card {
+    background: var(--bg-tertiary);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: var(--transition);
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+}
+
+.stat-icon {
+    font-size: 2.5rem;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(138, 43, 226, 0.1);
+    border-radius: 12px;
+}
+
+.stat-content h3 {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.stat-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* Tabs */
+.tabs-container {
+    background: var(--bg-tertiary);
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+}
+
+.tabs {
+    display: flex;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.tab-btn {
+    padding: 1.2rem 2rem;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    border-bottom: 3px solid transparent;
+}
+
+.tab-btn:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.tab-btn.active {
+    color: var(--accent-primary);
+    border-bottom-color: var(--accent-primary);
+    background: rgba(138, 43, 226, 0.05);
+}
+
+.tab-content {
+    display: none;
+    padding: 2rem;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.tab-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.tab-header h2 {
+    color: var(--text-primary);
+    font-size: 1.5rem;
+}
+
+.filter-options select {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
+}
+
+/* Orders List */
+.orders-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.order-item {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: var(--transition);
+}
+
+.order-item:hover {
+    transform: translateX(5px);
+    box-shadow: var(--shadow);
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.order-id {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.order-date {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.order-details {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 1rem;
+    align-items: center;
+}
+
+.order-service {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.order-quantity {
+    color: var(--text-secondary);
+}
+
+.order-cost {
+    font-weight: 700;
+    color: var(--success);
+}
+
+.order-status {
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-align: center;
+}
+
+.status-pending {
+    background: rgba(255, 204, 0, 0.2);
+    color: var(--warning);
+}
+
+.status-processing {
+    background: rgba(138, 43, 226, 0.2);
+    color: var(--accent-primary);
+}
+
+.status-completed {
+    background: rgba(0, 204, 136, 0.2);
+    color: var(--success);
+}
+
+.status-cancelled {
+    background: rgba(255, 71, 87, 0.2);
+    color: var(--error);
+}
+
+/* Transactions List */
+.transactions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.transaction-item {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 1rem;
+    align-items: center;
+}
+
+.transaction-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+.transaction-deposit .transaction-icon {
+    background: rgba(0, 204, 136, 0.2);
+    color: var(--success);
+}
+
+.transaction-purchase .transaction-icon {
+    background: rgba(255, 71, 87, 0.2);
+    color: var(--error);
+}
+
+.transaction-refund .transaction-icon {
+    background: rgba(255, 204, 0, 0.2);
+    color: var(--warning);
+}
+
+.transaction-info h3 {
+    color: var(--text-primary);
+    margin-bottom: 0.3rem;
+    font-size: 1rem;
+}
+
+.transaction-info p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.transaction-amount {
+    font-weight: 700;
+    text-align: right;
+}
+
+.transaction-deposit .transaction-amount {
+    color: var(--success);
+}
+
+.transaction-purchase .transaction-amount {
+    color: var(--error);
+}
+
+.transaction-refund .transaction-amount {
+    color: var(--warning);
+}
+
+/* Settings Form */
+.settings-form {
+    max-width: 500px;
+}
+
+.settings-form .form-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.settings-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.settings-form input {
+    width: 100%;
+    padding: 1rem;
+    background: var(--bg-secondary);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+.settings-form input:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.1);
+}
+
+.settings-form input:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn-edit {
+    position: absolute;
+    right: 0.5rem;
+    top: 2.5rem;
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-edit:hover {
+    background: var(--accent-primary);
+    color: white;
+}
+
+/* Payment Methods */
+.payment-methods {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.payment-method {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: center;
+}
+
+.payment-method:hover {
+    border-color: var(--accent-primary);
+}
+
+.payment-method.selected {
+    border-color: var(--accent-primary);
+    background: rgba(138, 43, 226, 0.1);
+}
+
+.payment-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.payment-info h3 {
+    color: var(--text-primary);
+    margin-bottom: 0.3rem;
+}
+
+.payment-info p {
+    color: var(--text-secondary);
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* Amount Selection */
+.amount-selection {
+    margin: 2rem 0;
+}
+
+.amount-selection h3 {
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.amount-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.amount-btn {
+    padding: 0.8rem;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 2px solid transparent;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: var(--transition);
+    font-weight: 600;
+}
+
+.amount-btn:hover,
+.amount-btn.selected {
+    border-color: var(--accent-primary);
+    background: rgba(138, 43, 226, 0.1);
+    color: var(--accent-primary);
+}
+
+.custom-amount {
+    margin-top: 1rem;
+}
+
+.custom-amount label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.custom-amount input {
+    width: 100%;
+    padding: 1rem;
+    background: var(--bg-secondary);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+/* Empty States */
+.empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: var(--text-secondary);
+}
+
+.empty-state-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.empty-state-text {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+    .profile-header {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 1.5rem;
+    }
+    
+    .profile-actions {
+        justify-content: center;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .tab-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+    
+    .order-details {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .tabs {
+        flex-direction: column;
+    }
+    
+    .tab-btn {
+        text-align: left;
+        border-bottom: none;
+        border-left: 3px solid transparent;
+    }
+    
+    .tab-btn.active {
+        border-bottom-color: transparent;
+        border-left-color: var(--accent-primary);
+    }
+    
+    .transaction-item {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 0.5rem;
+    }
+    
+    .transaction-amount {
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-header {
+        padding: 1.5rem;
+    }
+    
+    .avatar-large {
+        width: 80px;
+        height: 80px;
+        font-size: 2rem;
+    }
+    
+    .profile-info h1 {
+        font-size: 1.8rem;
+    }
+    
+    .profile-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .profile-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .stat-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .payment-methods {
+        grid-template-columns: 1fr;
+    }
+}

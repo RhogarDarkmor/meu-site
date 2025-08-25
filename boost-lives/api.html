@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation - Boost Lives</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .api-header {
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            color: white;
+            padding: 100px 0 60px;
+            text-align: center;
+        }
+
+        .api-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .api-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .api-container {
+            padding: 60px 0;
+            background: var(--bg-primary);
+        }
+
+        .api-section {
+            background: var(--bg-tertiary);
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .api-section-header {
+            background: var(--bg-secondary);
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .api-section-header h2 {
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        .api-section-content {
+            padding: 2rem;
+        }
+
+        .endpoint {
+            background: rgba(138, 43, 226, 0.1);
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--accent-primary);
+        }
+
+        .endpoint-method {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            background: var(--accent-primary);
+            color: white;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-right: 1rem;
+        }
+
+        .endpoint-url {
+            font-family: 'Courier New', monospace;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .endpoint-description {
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .code-block {
+            background: #1a1a2e;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .code-block pre {
+            margin: 0;
+            color: var(--text-primary);
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .code-block code {
+            color: #e2e8f0;
+        }
+
+        .param-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        .param-table th,
+        .param-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .param-table th {
+            color: var(--text-primary);
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .param-table td {
+            color: var(--text-secondary);
+        }
+
+        .param-required {
+            color: var(--error);
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .param-optional {
+            color: var(--success);
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .response-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        .response-table th,
+        .response-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .response-table th {
+            color: var(--text-primary);
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .response-table td {
+            color: var(--text-secondary);
+        }
+
+        .status-badge {
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-success {
+            background: rgba(0, 204, 136, 0.2);
+            color: var(--success);
+        }
+
+        .status-error {
+            background: rgba(255, 71, 87, 0.2);
+            color: var(--error);
+        }
+
+        .api-notes {
+            background: rgba(255, 204, 0, 0.1);
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius);
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--warning);
+        }
+
+        .api-notes h4 {
+            color: var(--warning);
+            margin-bottom: 0.5rem;
+        }
+
+        .api-notes p {
+            color: var(--text-secondary);
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--accent-gradient);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            z-index: 1000;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 768px) {
+            .api-header h1 {
+                font-size: 2.2rem;
+            }
+
+            .api-header p {
+                font-size: 1.1rem;
+                padding: 0 1rem;
+            }
+
+            .api-section-content {
+                padding: 1.5rem;
+            }
+
+            .param-table,
+            .response-table {
+                font-size: 0.8rem;
+            }
+
+            .param-table th,
+            .param-table td,
+            .response-table th,
+            .response-table td {
+                padding: 0.8rem;
+            }
+
+            .back-to-top {
+                bottom: 1rem;
+                right: 1rem;
+                width: 45px;
+                height: 45px;
+            }
+        }
+    </style>
+</head>
+<body class="dark-theme">
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="logo-icon">🚀</span>
+                    <span class="logo-text">Boost Lives</span>
+                </div>
+                
+                <nav class="nav">
+                    <a href="index.html" class="nav-link">Início</a>
+                    <a href="cadastro.html" class="nav-link">Cadastro</a>
+                    <a href="api.html" class="nav-link nav-btn">API</a>
+                </nav>
+
+                <div class="mobile-menu-toggle" id="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- API Header -->
+    <section class="api-header">
+        <div class="container">
+            <h1>API Documentation</h1>
+            <p>Integre nossos serviços SMM diretamente em sua aplicação com nossa API RESTful</p>
+        </div>
+    </section>
+
+    <!-- API Content -->
+    <section class="api-container">
+        <div class="container">
+            <!-- Introduction -->
+            <div class="api-section">
+                <div class="api-section-header">
+                    <h2>Introdução</h2>
+                </div>
+                <div class="api-section-content">
+                    <p>Nossa API RESTful permite que você integre os serviços do Boost Lives diretamente em sua aplicação. Todas as requisições devem ser feitas via HTTPS e retornam dados em formato JSON.</p>
+                    
+                    <div class="endpoint">
+                        <span class="endpoint-method">BASE URL</span>
+                        <span class="endpoint-url">https://api.boostlives.com/v1</span>
+                        <div class="endpoint-description">
+                            Todos os endpoints são relativos a esta URL base
+                        </div>
+                    </div>
+
+                    <div class="api-notes">
+                        <h4>⚠️ Nota Importante</h4>
+                        <p>Esta documentação é para referência da API que estará disponível em breve. Atualmente, nosso sistema opera através do painel web.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Authentication -->
+            <div class="api-section">
+                <div class="api-section-header">
+                    <h2>Autenticação</h2>
+                </div>
+                <div class="api-section-content">
+                    <p>Todas as requisições à API requerem autenticação via API Key. Sua chave deve ser incluída no header de todas as requisições.</p>
+
+                    <div class="endpoint">
+                        <span class="endpoint-method">HEADER</span>
+                        <span class="endpoint-url">Authorization: Bearer SUA_API_KEY</span>
+                    </div>
+
+                    <div class="code-block">
+                        <pre><code>// Exemplo de header de autenticação
+{
+  "Authorization": "Bearer sk_live_1234567890abcdef",
+  "Content-Type": "application/json"
+}</code></pre>
+                    </div>
+
+                    <div class="api-notes">
+                        <h4>🔒 Segurança</h4>
+                        <p>Mantenha sua API Key segura e nunca a compartilhe publicamente. Você pode gerar e gerenciar suas chaves através do painel de controle.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Services Endpoint -->
+            <div class="api-section">
+                <div class="api-section-header">
+                    <h2>Serviços</h2>
+                </div>
+                <div class="api-section-content">
+                    <div class="endpoint">
+                        <span class="endpoint-method">GET</span>
+                        <span class="endpoint-url">/services</span>
+                        <div class="endpoint-description">
+                            Retorna a lista de todos os serviços disponíveis
+                        </div>
+                    </div>
+
+                    <h4>Exemplo de Requisição</h4>
+                    <div class="code-block">
+                        <pre><code>curl -X GET "https://api.boostlives.com/v1/services" \
+  -H "Authorization: Bearer SUA_API_KEY"</code></pre>
+                    </div>
+
+                    <h4>Exemplo de Resposta</h4>
+                    <div class="code-block">
+                        <pre><code>{
+  "status": "success",
+  "data": [
+    {
+      "id": 1,
+      "name": "Seguidores Instagram Brasileiros",
+      "category": "Instagram",
+      "rate": 1.50,
+      "min": 100,
+      "max": 10000,
+      "description": "Seguidores reais do Brasil...",
+      "speed": "500-1000/dia"
+    },
+    {
+      "id": 2,
+      "name": "Curtidas Instagram Post",
+      "category": "Instagram",
+      "rate": 0.80,
+      "min": 50,
+      "max": 5000,
+      "description": "Curtidas reais para suas publicações...",
+      "speed": "Imediato"
+    }
+  ]
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Create Order -->
+            <div class="api-section">
+                <div class="api-section-header">
+                    <h2>Criar Pedido</h2>
+                </div>
+                <div class="api-section-content">
+                    <div class="endpoint">
+                        <span class="endpoint-method">POST</span>
+                        <span class="endpoint-url">/orders</span>
+                        <div class="endpoint-description">
+                            Cria um novo pedido para um serviço
+                        </div>
+                    </div>
+
+                    <h4>Parâmetros</h4>
+                    <table class="param-table">
+                        <thead>
+                            <tr>
+                                <th>Parâmetro</th>
+                                <th>Tipo</th>
+                                <th>Obrigatório</th>
+                                <th>Descrição</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>service_id</td>
+                                <td>integer</td>
+                                <td><span class="param-required">Sim</span></td>
+                                <td>ID do serviço desejado</td>
+                            </tr>
+                            <tr>
+                                <td>link</td>
+                                <td>string</td>
+                                <td><span class="param-required">Sim</span></td>
+                                <td>URL do perfil/postagem</td>
+                            </tr>
+                            <tr>
+                                <td>quantity</td>
+                                <td>integer</td>
+                                <td><span class="param-required">Sim</span></td>
+                                <td>Quantidade desejada</td>
+                            </tr>
+                            <tr>
+                                <td>dripfeed</td>
+                                <td>boolean</td>
+                                <td><span class="param-optional">Não</span></td>
+                                <td>Entrega gradual (padrão: false)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Exemplo de Requisição</h4>
+                    <div class="code-block">
+                        <pre><code>curl -X POST "https://api.boostlives.com/v1/orders" \
+  -H "Authorization: Bearer SUA_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "service_id": 1,
+    "link": "https://instagram.com/usuario",
+    "quantity": 1000,
+    "dripfeed": true
+  }'</code></pre>
+                    </div>
+
+                    <h4>Exemplo de Resposta</h4>
+                    <div class="code-block">
+                        <pre><code>{
+  "status": "success",
+  "data": {
+    "id": 123456,
+    "service_id": 1,
+    "link": "https://instagram.com/usuario",
+    "quantity": 1000,
+    "cost": 1500.00,
+    "status": "pending",
+    "created_at": "2024-01-15T10:30:00Z"
+  }
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Status -->
+            <div class="api-section">
+                <div class="api-section-header">
+                    <h2>Status do Pedido</h2>
+                </div>
+                <div class="api-section-content">
+                    <div class="endpoint">
+                        <span class="endpoint-method">GET</span>
+                        <span class="endpoint-url">/orders/{id}</span>
+                        <div class="endpoint-description">
+                            Retorna o status de um pedido específico
+                        </div>
+                    </div>
+
+                    <h4>Exemplo de Requisição</h4>
+                    <div class="code-block">
+                        <pre><code>curl -X GET "https://api.boostlives.com/v1/orders/123456" \
+  -H "Authorization: Bearer SUA_API_KEY"</code></pre>
+                    </div>
+
+                    <h4>Exemplo de Resposta</h4>
+                    <div class="code-block">
+                        <pre><code>{
+  "status": "success",
+  "data": {
+    "id": 123456,
+    "service_id": 1,
+    "link": "https://instagram.com/usuario",
+    "quantity": 1000,
+    "start_count": 150,
+    "remains": 850,
+    "cost": 1500.00,
+    "status": "processing",
+    "created_at": "2024-01-15T10:30:00Z",
+    "updated_at": "2024-01-15T10:35:00Z"
+  }
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Balance -->
+            <div class="api-section">
+                <div class="api-section-header">
+                    <h2>Saldo</h2>
+                </div>
+                <div class="api-section-content">
+                    <div class="endpoint">
+                        <span class="endpoint-method">GET</span>
+                        <span class="endpoint-url">/balance</span>
+                        <div class="endpoint-description">
+                            Retorna o saldo atual da conta
+                        </div>
+                    </div>
+
+                    <h4>Exemplo de Requisição</h4>
+                    <div class="code-block">
+                        <pre><code>curl -X GET "https://api.boostlives.com/v1/balance" \
+  -H "Authorization: Bearer SUA_API_KEY"</code></pre>
+                    </div>
+
+                    <h4>Exemplo de Resposta</h4>
+                    <div class="code-block">
+                        <pre><code>{
+  "status": "success",
+  "data": {
+    "balance": 5000.00,
+    "currency": "BRL"
+  }
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error Responses -->
+            <div class="api-section">
+                <div class="api-section-header">
+                    <h2>Respostas de Erro</h2>
+                </div>
+                <div class="api-section-content">
+                    <p>A API retorna códigos de status HTTP apropriados e mensagens de erro detalhadas em formato JSON.</p>
+
+                    <table class="response-table">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Status</th>
+                                <th>Descrição</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="status-badge status-error">400</span></td>
+                                <td>Bad Request</td>
+                                <td>Parâmetros inválidos ou faltando</td>
+                            </tr>
+                            <tr>
+                                <td><span class="status-badge status-error">401</span></td>
+                                <td>Unauthorized</td>
+                                <td>API Key inválida ou faltando</td>
+                            </tr>
+                            <tr>
+                                <td><span class="status-badge status-error">403</span></td>
+                                <td>Forbidden</td>
+                                <td>Saldo insuficiente ou permissões negadas</td>
+                            </tr>
+                            <tr>
+                                <td><span class="status-badge status-error">404</span></td>
+                                <td>Not Found</td>
+                                <td>Recurso não encontrado</td>
+                            </tr>
+                            <tr>
+                                <td><span class="status-badge status-error">429</span></td>
+                                <td>Too Many Requests</td>
+                                <td>Limite de requisições excedido</td>
+                            </tr>
+                            <tr>
+                                <td><span class="status-badge status-error">500</span></td>
+                                <td>Internal Error</td>
+                                <td>Erro interno do servidor</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Exemplo de Resposta de Erro</h4>
+                    <div class="code-block">
+                        <pre><code>{
+  "status": "error",
+  "code": 400,
+  "message": "Parâmetros inválidos",
+  "details": {
+    "quantity": "Quantidade deve ser entre 100 e 10000"
+  }
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Support -->
+            <div class="api-section">
+                <div class="api-section-header">
+                    <h2>Suporte</h2>
+                </div>
+                <div class="api-section-content">
+                    <p>Precisa de ajuda com a integração da API? Nossa equipe de suporte está disponível para ajudar.</p>
+
+                    <div class="api-notes">
+                        <h4>📞 Contato</h4>
+                        <p><strong>Email:</strong> api@boostlives.com<br>
+                        <strong>Discord:</strong> discord.gg/boostlives<br>
+                        <strong>Documentação:</strong> Sempre atualizada nesta página</p>
+                    </div>
+
+                    <div class="api-notes">
+                        <h4>🚀 Status do Sistema</h4>
+                        <p>Verifique o status atual de nossa API e serviços em <strong>status.boostlives.com</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Back to Top -->
+    <a href="#" class="back-to-top">↑</a>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
