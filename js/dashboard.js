@@ -2,17 +2,35 @@
 class Dashboard {
     constructor() {
         this.authSystem = window.authSystem || new AuthSystem();
-        this.currentUser = this.authSystem.getCurrentUser();
+        this.currentUser = null; // Initialize currentUser to null
         this.orders = JSON.parse(localStorage.getItem('boost_lives_orders')) || [];
         this.services = window.services || [];
         this.init();
     }
 
     init() {
-        if (!this.currentUser) {
-            window.location.href = 'index.html';
-            return;
+        this.setupEventListeners();
+        this.loadDashboardData();
+        this.loadUserOrders();
+        this.setupServiceSelection();
+        this.setupPaymentMethods();
+    }
+
+    setupEventListeners() {
+        // Logout
+        const logoutBtn = document.getElementById('logout-btn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', async (e) => {
+                e.preventDefault();
+                try {
+                    await firebase.auth().signOut();
+                    window.location.href = 'index.html';
+                } catch (error) {
+                    alert('Erro ao sair da conta!');
+                }
+            });
         }
+        // ...existing code...
 
         this.setupEventListeners();
         this.loadDashboardData();
@@ -323,16 +341,13 @@ class Dashboard {
     }
 }
 
-// Initialize dashboard when page loads
+// Inicializa dashboard com usuário do Firebase
 document.addEventListener('DOMContentLoaded', () => {
-    // Load services first
-    if (typeof loadServices === 'function') {
-        loadServices();
-    }
-    
-    // Initialize dashboard
-    window.dashboard = new Dashboard();
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            window.dashboard = new Dashboard(user);
+        } else {
+            window.location.href = 'index.html';
+        }
+    });
 });
-<a href="fazer-pedido.html" class="btn btn-primary">
-    🎮 Fazer Pedido Twitch
-</a>

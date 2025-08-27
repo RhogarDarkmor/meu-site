@@ -1,19 +1,28 @@
+// Fecha qualquer modal ao pressionar ESC (compatível cross-browser)
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' || e.key === 'Esc' || e.keyCode === 27) {
+        document.querySelectorAll('.modal').forEach(modal => {
+            if (getComputedStyle(modal).display !== 'none') {
+                modal.style.display = 'none';
+            }
+        });
+    }
+});
 // Perfil functionality
+// Perfil functionality com Firebase Auth
 class Profile {
-    constructor() {
-        this.authSystem = window.authSystem || new AuthSystem();
-        this.currentUser = this.authSystem.getCurrentUser();
+    constructor(user) {
+        // Garante que o usuário sempre tenha um saldo definido
+        this.currentUser = {
+            ...user,
+            balance: typeof user.balance === 'number' ? user.balance : 0
+        };
         this.orders = JSON.parse(localStorage.getItem('boost_lives_orders')) || [];
         this.transactions = JSON.parse(localStorage.getItem('boost_lives_transactions')) || [];
         this.init();
     }
 
     init() {
-        if (!this.currentUser) {
-            window.location.href = 'index.html';
-            return;
-        }
-
         this.setupEventListeners();
         this.loadProfileData();
         this.loadUserStats();
@@ -26,21 +35,23 @@ class Profile {
         // Logout
         const logoutBtn = document.getElementById('logout-btn');
         if (logoutBtn) {
-            logoutBtn.addEventListener('click', (e) => {
+            logoutBtn.addEventListener('click', async (e) => {
                 e.preventDefault();
-                this.authSystem.handleLogout();
+                try {
+                    await firebase.auth().signOut();
+                    window.location.href = 'index.html';
+                } catch (error) {
+                    alert('Erro ao sair da conta!');
+                }
             });
         }
-
-        // Payment method selection
+        // ...existing code...
         document.querySelectorAll('.payment-method').forEach(method => {
             method.addEventListener('click', () => {
                 document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
                 method.classList.add('selected');
             });
         });
-
-        // Amount buttons
         document.querySelectorAll('.amount-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
@@ -48,23 +59,18 @@ class Profile {
                 document.getElementById('custom-amount').value = btn.dataset.amount;
             });
         });
-
-        // Custom amount input
         const customAmount = document.getElementById('custom-amount');
         if (customAmount) {
             customAmount.addEventListener('input', () => {
                 document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
             });
         }
-
-        // Filter changes
         const orderFilter = document.getElementById('order-filter');
         if (orderFilter) {
             orderFilter.addEventListener('change', () => {
                 this.loadUserOrders();
             });
         }
-
         const transactionFilter = document.getElementById('transaction-filter');
         if (transactionFilter) {
             transactionFilter.addEventListener('change', () => {
@@ -74,17 +80,16 @@ class Profile {
     }
 
     loadProfileData() {
-        // Update user info
-        document.getElementById('profile-username').textContent = this.currentUser.username;
-        document.getElementById('profile-email').textContent = this.currentUser.email;
-        document.getElementById('user-name').textContent = this.currentUser.username;
-        
-        // User avatar
-        const avatarLetter = this.currentUser.username.charAt(0).toUpperCase();
+        // Atualiza info do usuário
+        const email = this.currentUser.email;
+        document.getElementById('profile-username').textContent = email.split('@')[0];
+        document.getElementById('profile-email').textContent = email;
+        document.getElementById('user-name').textContent = email.split('@')[0];
+        // Avatar
+        const avatarLetter = email.charAt(0).toUpperCase();
         document.getElementById('user-avatar').textContent = avatarLetter;
         document.getElementById('profile-avatar').textContent = avatarLetter;
-
-        // Join date (simulated for demo)
+        // Data fictícia
         const joinDate = new Date().toLocaleDateString('pt-BR', {
             month: 'long',
             year: 'numeric'
@@ -101,11 +106,12 @@ class Profile {
         const completedOrders = userOrders.filter(order => order.status === 'completed').length;
         const deposits = userTransactions.filter(t => t.type === 'deposit').reduce((total, t) => total + t.amount, 0);
         
-        // Update stats
-        document.getElementById('balance-available').textContent = `R$ ${this.currentUser.balance.toFixed(2)}`;
-        document.getElementById('total-spent').textContent = `R$ ${totalSpent.toFixed(2)}`;
-        document.getElementById('total-orders').textContent = userOrders.length;
-        document.getElementById('completed-orders').textContent = completedOrders;
+    // Update stats com fallback seguro
+    const balance = typeof this.currentUser.balance === 'number' ? this.currentUser.balance : 0;
+    document.getElementById('balance-available').textContent = `R$ ${balance.toFixed(2)}`;
+    document.getElementById('total-spent').textContent = `R$ ${totalSpent.toFixed(2)}`;
+    document.getElementById('total-orders').textContent = userOrders.length;
+    document.getElementById('completed-orders').textContent = completedOrders;
     }
 
     loadUserOrders() {
@@ -312,8 +318,12 @@ class Profile {
 
 // Global functions for HTML onclick attributes
 function showAddFundsModal() {
-    if (window.profile) {
+    if (window.profile && typeof window.profile.showAddFundsModal === 'function') {
         window.profile.showAddFundsModal();
+    } else {
+        // fallback direto
+        const modal = document.getElementById('add-funds-modal');
+        if (modal) modal.style.display = 'flex';
     }
 }
 
@@ -343,7 +353,21 @@ function updateProfile() {
     alert('Funcionalidade de atualizar perfil será implementada em breve!');
 }
 
-// Initialize profile when page loads
+// Inicializa profile com usuário do Firebase
 document.addEventListener('DOMContentLoaded', () => {
-    window.profile = new Profile();
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            window.profile = new Profile(user);
+            // Garante que o botão "Adicionar Saldo" funcione mesmo se onclick falhar
+            const addFundsBtn = document.querySelector('.btn.btn-secondary');
+            if (addFundsBtn) {
+                addFundsBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showAddFundsModal();
+                });
+            }
+        } else {
+            window.location.href = 'index.html';
+        }
+    });
 });

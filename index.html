@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Boost Lives - Painel SMM Premium</title>
+    <meta name="description" content="Impulsione suas redes sociais com seguidores, curtidas e visualizações reais. Painel SMM premium, entrega rápida e suporte 24h.">
+    <meta name="keywords" content="SMM, seguidores, Instagram, TikTok, YouTube, painel, social media, comprar seguidores, comprar curtidas, impulsionar">
+    <meta name="author" content="Boost Lives">
+    <meta property="og:title" content="Boost Lives - Painel SMM Premium">
+    <meta property="og:description" content="Impulsione suas redes sociais com seguidores, curtidas e visualizações reais. Painel SMM premium, entrega rápida e suporte 24h.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://boost-lives.com/">
+    <meta property="og:image" content="img/logo.png">
+    <link rel="icon" type="image/png" href="img/logo.png">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/auth.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -310,7 +319,25 @@
 
     <script src="js/services.js"></script>
     <script src="js/main.js"></script>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCk1-c_OCAfhIqDgd6P4rFegBEkLK3b-MA",
+            authDomain: "boost-lives.firebaseapp.com",
+            projectId: "boost-lives",
+            storageBucket: "boost-lives.firebasestorage.app",
+            messagingSenderId: "235695081136",
+            appId: "1:235695081136:web:d34f542129923478555d75"
+        };
+        firebase.initializeApp(firebaseConfig);
+    </script>
     <script src="js/auth.js"></script>
     <script src="js/fallback.js"></script>
+    <script src="js/toast.js"></script>
+
+    
+
 </body>
 </html>
