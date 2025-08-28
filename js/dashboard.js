@@ -1,3 +1,30 @@
+// Funções globais para modal e pagamento igual perfil
+window.showAddFundsModal = function() {
+    const modal = document.getElementById('add-funds-modal');
+    if (modal) modal.style.display = 'flex';
+}
+
+window.closeModal = function(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) modal.style.display = 'none';
+}
+
+window.processPayment = function() {
+    const selectedMethod = document.querySelector('.payment-method.selected');
+    const amountInput = document.getElementById('custom-amount');
+    const amount = parseFloat(amountInput.value);
+    if (!selectedMethod || !amount || amount < 10) {
+        alert('Selecione um método de pagamento e um valor válido (mínimo R$ 10,00)');
+        return;
+    }
+    const method = selectedMethod.dataset.method;
+    alert(`Processando pagamento ${method.toUpperCase()}...`);
+    setTimeout(() => {
+        // Simula atualização de saldo
+        alert(`R$ ${amount.toFixed(2)} adicionados com sucesso!`);
+        window.closeModal('add-funds-modal');
+    }, 2000);
+}
 // Dashboard functionality
 class Dashboard {
     constructor() {
@@ -5,10 +32,6 @@ class Dashboard {
         this.currentUser = null; // Initialize currentUser to null
         this.orders = JSON.parse(localStorage.getItem('boost_lives_orders')) || [];
         this.services = window.services || [];
-        this.init();
-    }
-
-    init() {
         this.setupEventListeners();
         this.loadDashboardData();
         this.loadUserOrders();
@@ -24,9 +47,18 @@ class Dashboard {
                 e.preventDefault();
                 try {
                     await firebase.auth().signOut();
-                    window.location.href = 'index.html';
+                    if (typeof showNotification === 'function') {
+                        showNotification('Logout realizado com sucesso', 'success');
+                    }
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1000);
                 } catch (error) {
-                    alert('Erro ao sair da conta!');
+                    if (typeof showNotification === 'function') {
+                        showNotification('Erro ao sair', 'error');
+                    } else {
+                        alert('Erro ao sair da conta!');
+                    }
                 }
             });
         }

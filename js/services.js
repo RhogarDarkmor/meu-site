@@ -1,114 +1,37 @@
-// Serviços disponíveis
+// Serviços disponíveis focados em lives na Twitch
 const services = [
     {
         id: 1,
-        name: "Seguidores Instagram Brasileiros",
-        category: "Instagram",
-        icon: "📱",
-        rate: 1.50,
-        min: 100,
-        max: 10000,
-        description: "Seguidores reais do Brasil, perfis ativos e engajamento genuíno",
-        speed: "500-1000/dia"
+    name: "Viewers para Lives na Twitch",
+        category: "Twitch",
+        icon: "🎬",
+        rate: 2.50,
+        min: 10,
+        max: 5000,
+        description: "Aumente o número de espectadores simultâneos em sua live na Twitch de forma segura e realista.",
+        speed: "Instantâneo"
     },
     {
         id: 2,
-        name: "Curtidas Instagram Post",
-        category: "Instagram",
-        icon: "❤️",
-        rate: 0.80,
-        min: 50,
-        max: 5000,
-        description: "Curtidas reais para suas publicações",
-        speed: "Imediato"
+        name: "Seguidores para Twitch",
+        category: "Twitch",
+        icon: "👥",
+        rate: 1.80,
+        min: 10,
+        max: 10000,
+        description: "Ganhe seguidores reais e aumente sua base de fãs na Twitch.",
+        speed: "Rápido"
     },
     {
         id: 3,
-        name: "Visualizações Instagram Reels",
-        category: "Instagram",
-        icon: "🎬",
-        rate: 0.20,
-        min: 1000,
-        max: 50000,
-        description: "Visualizações de alta qualidade para seus Reels",
-        speed: "10k/hora"
-    },
-    {
-        id: 4,
-        name: "Visualizações YouTube",
-        category: "YouTube",
-        icon: "📺",
-        rate: 0.50,
-        min: 1000,
-        max: 100000,
-        description: "Visualizações reais para seus vídeos",
-        speed: "5k/hora"
-    },
-    {
-        id: 5,
-        name: "Likes YouTube",
-        category: "YouTube",
-        icon: "👍",
-        rate: 0.90,
-        min: 100,
-        max: 10000,
-        description: "Likes genuínos para seus vídeos",
-        speed: "Imediato"
-    },
-    {
-        id: 6,
-        name: "Inscritos YouTube",
-        category: "YouTube",
-        icon: "👥",
-        rate: 2.00,
-        min: 100,
-        max: 5000,
-        description: "Inscritos reais para seu canal",
-        speed: "100-500/dia"
-    },
-    {
-        id: 7,
-        name: "Seguidores TikTok Brasileiros",
-        category: "TikTok",
-        icon: "🎵",
-        rate: 1.20,
-        min: 100,
-        max: 10000,
-        description: "Seguidores reais do Brasil",
-        speed: "300-800/dia"
-    },
-    {
-        id: 8,
-        name: "Visualizações TikTok",
-        category: "TikTok",
-        icon: "👀",
-        rate: 0.30,
-        min: 1000,
-        max: 100000,
-        description: "Visualizações reais para seus vídeos",
-        speed: "10k/hora"
-    },
-    {
-        id: 9,
-        name: "Seguidores Twitter",
-        category: "Twitter",
-        icon: "🐦",
-        rate: 1.80,
-        min: 100,
-        max: 5000,
-        description: "Seguidores reais e ativos",
-        speed: "200-400/dia"
-    },
-    {
-        id: 10,
-        name: "Curtidas Twitter",
-        category: "Twitter",
-        icon: "💙",
-        rate: 0.70,
-        min: 100,
-        max: 5000,
-        description: "Curtidas para seus tweets",
-        speed: "Imediato"
+    name: "Engajamento no Chat da Twitch",
+        category: "Twitch",
+        icon: "💬",
+        rate: 3.00,
+        min: 5,
+        max: 500,
+        description: "Receba mensagens e interação no chat para lives mais animadas e engajadas.",
+        speed: "Durante a live"
     }
 ];
 

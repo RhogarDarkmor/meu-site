@@ -171,12 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Atualiza UI com usuário logado
     firebase.auth().onAuthStateChanged((user) => {
-        updateUI(user);
-        // Redireciona para perfil se logado e na index
-        if (user && window.location.pathname.endsWith('index.html')) {
-            setTimeout(() => {
-                window.location.href = 'perfil.html';
-            }, 500);
-        }
+    updateUI(user);
+    // Removido redirecionamento automático para evitar loop de logout/login
     });
 });

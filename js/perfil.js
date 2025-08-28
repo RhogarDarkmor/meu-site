@@ -1,3 +1,13 @@
+// Garante que o X do modal fecha corretamente
+document.addEventListener('DOMContentLoaded', function() {
+    const closeBtns = document.querySelectorAll('.modal .close');
+    closeBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const modal = btn.closest('.modal');
+            if (modal) modal.style.display = 'none';
+        });
+    });
+});
 // Fecha qualquer modal ao pressionar ESC (compatível cross-browser)
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape' || e.key === 'Esc' || e.keyCode === 27) {
