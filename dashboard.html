@@ -1,33 +1,26 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Boost Lives</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/dashboard.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Firebase Auth Protection -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <!-- Botão Entrar fixo para mobile -->
+    <a href="index.html" id="mobile-login-fixed" class="mobile-login-fixed" style="display:none;">Entrar</a>
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
     <script>
-      const firebaseConfig = {
-        apiKey: "AIzaSyCk1-c_OCAfhIqDgd6P4rFegBEkLK3b-MA",
-        authDomain: "boost-lives.firebaseapp.com",
-        projectId: "boost-lives",
-        storageBucket: "boost-lives.firebasestorage.app",
-        messagingSenderId: "235695081136",
-        appId: "1:235695081136:web:d34f542129923478555d75"
-      };
-      firebase.initializeApp(firebaseConfig);
-      firebase.auth().onAuthStateChanged(function(user) {
-        if (!user) {
-          window.location.href = 'index.html';
+    // Exibe o botão Entrar fixo no mobile se não estiver logado
+    function showMobileLoginBtn() {
+        var user = JSON.parse(localStorage.getItem('boost_lives_current_user'));
+        var mobileLogin = document.getElementById('mobile-login-fixed');
+        if (!user && mobileLogin) {
+            mobileLogin.style.display = 'flex';
+        } else if (mobileLogin) {
+            mobileLogin.style.display = 'none';
         }
-      });
+    }
+    document.addEventListener('DOMContentLoaded', showMobileLoginBtn);
+    // Também executa ao redirecionar pelo Firebase
+    if (window.firebase && firebase.auth) {
+        firebase.auth().onAuthStateChanged(function(user) {
+            showMobileLoginBtn();
+        });
+    }
     </script>
-</head>
-<body class="dark-theme">
     <!-- Header -->
     <header class="header">
         <div class="container">
@@ -40,6 +33,8 @@
                     <a href="perfil.html" class="nav-link">Meu Perfil</a>
                     <a href="dashboard.html" class="nav-link nav-btn">Serviços</a>
                     <a href="api.html" class="nav-link">API</a>
+                    <!-- Botão Entrar para mobile, só aparece se não estiver logado -->
+                    <a href="index.html" class="nav-link mobile-login-link" id="mobile-login-link" style="display:none;">Entrar</a>
                     <div class="user-menu" id="user-menu">
                         <div class="user-info">
                             <div class="user-avatar" id="user-avatar"></div>
@@ -106,5 +101,15 @@
 
     <script src="js/auth.js"></script>
     <script src="js/dashboard.js"></script>
+    <script>
+    // Exibe o botão Entrar no mobile se não estiver logado
+    document.addEventListener('DOMContentLoaded', function() {
+        var user = JSON.parse(localStorage.getItem('boost_lives_current_user'));
+        var mobileLogin = document.getElementById('mobile-login-link');
+        if (!user && mobileLogin) {
+            mobileLogin.style.display = 'block';
+        }
+    });
+    </script>
 </body>
 </html>

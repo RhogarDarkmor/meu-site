@@ -1,3 +1,21 @@
+</section>
+
+<!-- Botão Entrar fixo para mobile -->
+<a href="index.html" id="mobile-login-fixed" class="mobile-login-fixed" style="display:none;">Entrar</a>
+
+<script>
+// Exibe o botão Entrar fixo no mobile se não estiver logado
+function showMobileLoginBtn() {
+    var user = JSON.parse(localStorage.getItem('boost_lives_current_user'));
+    var mobileLogin = document.getElementById('mobile-login-fixed');
+    if (!user && mobileLogin) {
+        mobileLogin.style.display = 'flex';
+    } else if (mobileLogin) {
+        mobileLogin.style.display = 'none';
+    }
+}
+document.addEventListener('DOMContentLoaded', showMobileLoginBtn);
+</script>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
